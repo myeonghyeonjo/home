@@ -87,6 +87,7 @@
 		</tr>
 		<c:forEach items="${list}" var="item">
 			 <tr>
+			 
 			 			<c:if test="${item.r_group == board.b_idx}">
 			 				<td>
 			 					<c:if test="${item.r_depth > 0}">
@@ -95,9 +96,10 @@
                         		</c:forEach>
                         			RE : 
                     		</c:if>	
-			 					<a href="reply-reply.do?r_order=${item.r_order}">${item.r_writer}
+			 				<td>${item.r_content }</td>
 			 				</td>
-			 				<td>${item.r_content}</td>
+			 				
+			 				<td>${item.r_writer}</td>
 							<td>${item.r_date}</td>
 							<td>
 								<input type="button" value="수정" class="btnUpdate">
@@ -108,25 +110,34 @@
 			  </tr>
 			  <tr style="display: none;">
 			  	<td colspan="3">
-			  		<textarea rows="2" cols="120" name="">${item.r_writer}</textarea>
 			  		<textarea rows="2" cols="120" name="">${item.r_content}</textarea>
+			  		<textarea rows="2" cols="120" name="">${item.r_writer}</textarea>
 			  		<input type="button" value="등록" class="btnUpdateOK" r_idx="${item.r_idx}">
 			  		<input type="button" value="취소" class="btnCancel">
 			  	</td>
 			  </tr>
-			  
-			  
-			  <tr style="display2: none;">
+			   <tr style="display: none;">
 			  	<td colspan="3">
-			  		<textarea rows="2" cols="120" name="">${item.r_writer}</textarea>
-			  		<textarea rows="2" cols="120" name="">${item.r_content}</textarea>
-			  		<input type="button" value="대댓글등록" class="btnUpdateOK" r_idx="${item.r_idx}">
-			  		<input type="button" value="취소" class="btnCancel">
+			  		<textarea rows="2" cols="120" name=""></textarea>
+			  		<textarea rows="2" cols="120" name=""></textarea>
+			  		<input type="button" value="등록2" class="btnReReplyOK" r_idx="${item.r_idx}" r_replygroup="${item.r_replygroup}" r_order="${item.r_order}" r_depth="${item.r_depth}">
+			  		<input type="button" value="취소2" class="btnCancel">
 			  	</td>
 			  </tr>
+			
+			
 			  
 			  
 		</c:forEach>
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 	</table>
@@ -151,17 +162,13 @@ $(document).on('click', '.btnCancel', function () {
 	$(this).parent().parent().css("display", "none");
 });
 
-
-
 $(document).on('click', '.btnReReply', function () {
-	$(this).parent().parent().next().css("display2", "");
-	$(this).parent().parent().css("display2", "none");
+	$(this).parent().parent().next().next().css("display", "");
+	$(this).parent().parent().css("display", "none");
 });
 
-$(document).on('click', '.btnReReply', function () {
-	$(this).parent().parent().next().css("display2", "");
-	$(this).parent().parent().css("display2", "none");
-});
+
+
 
 
 
@@ -190,8 +197,8 @@ $(document).on('click', '.btnReply', function () {
 $(document).on('click', '.btnUpdateOK', function () {
 	let r_idx = $(this).attr('r_idx');
 	let b_idx = '${board.b_idx}';
-	let content = $(this).prev().val();
-	let writer = $(this).prev().prev().val();
+	let content = $(this).prev().prev().val();
+	let writer = $(this).prev().val();
 	
 	
 	
@@ -226,23 +233,49 @@ $(document).on('click', '.btnDelete', function () {
 
 
 
-$(document).on('click', '.btnReReply', function () {
-	let r_replygroup = $(this).attr('r_replygroup');
+$(document).on('click', '.btnReReplyOK', function () {
+	let r_idx = $(this).attr('r_idx');
 	let b_idx = '${board.b_idx}';
-	let writer = $('input[name="writer"]').val();
-	let content = $('#commentContent').val();
-
-	
+	let content = $(this).prev().prev().val();
+	let writer = $(this).prev().val();
+	let r_replygroup = $(this).attr('r_replygroup');
+	let r_order = $(this).attr('r_order');
+	let r_depth = $(this).attr('r_depth');
 	$.ajax({
 		method: "POST",
 		url: "aj-reReplyComment.do",
-		data: { r_replygroup: r_replygroup , b_idx: b_idx, r_writer: r_writer, r_content: r_content}
+		data: { r_idx: r_idx, b_idx: b_idx, content: content , writer: writer, r_replygroup:r_replygroup, r_order:r_order, r_depth:r_depth}
 	})
 	.done(function( html ) {
 		//console.log(html);
 		$('#tblReply').html(html);
 	});
 });
+
+
+$(document).on('click', '.btnReplyview', function () {
+	let bidx = '${board.b_idx}';
+	let writer = $('input[name="writer"]').val();
+	let content = $('#commentContent').val();
+	
+	
+	
+	
+	$.ajax({
+		method: "POST",
+		url: "aj-re.do",
+		data: { b_idx: bidx, writer: writer, content: content }
+	})
+	.done(function( html ) {
+		//console.log(html);
+		$('#tblReply').html(html);
+	});
+	
+});
+
+
+
+
 
 
 </script>

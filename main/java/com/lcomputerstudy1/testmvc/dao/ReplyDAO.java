@@ -332,4 +332,51 @@ public class ReplyDAO {
 			}
 		}    
 	}
+
+
+	public void reReply(Reply reply) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			
+			
+		
+			
+			
+			String sql1 = "UPDATE reply SET r_order = r_order+1 where r_group = ? and r_order > ?";
+			pstmt = conn.prepareStatement(sql1);
+			pstmt.setInt(1, reply.getr_group());
+			pstmt.setInt(2, reply.getr_order());
+			pstmt.executeUpdate();
+			
+			String sql = "insert into reply(r_content,r_date,r_writer, r_group, r_order, r_depth, r_replygroup) values(?,now(),?, ?, ?, ?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reply.getr_content());
+			pstmt.setString(2, reply.getr_writer());
+			pstmt.setInt(3, reply.getr_group());
+			pstmt.setInt(4, reply.getr_order()+1);
+			pstmt.setInt(5, reply.getr_depth()+1);
+			pstmt.setInt(6, reply.getr_replygroup());
+			pstmt.executeUpdate();
+			pstmt.close();
+				
+			
+			
+			
+			
+			
+			
+		} catch( Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

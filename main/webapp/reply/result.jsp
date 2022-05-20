@@ -18,9 +18,9 @@
 					</c:forEach>
 	                   			RE : 
 				</c:if>	
-				<a href="reply-reply.do?r_order=${item.r_order}">${item.r_writer}
+				<a href="reply-reply.do?r_order=${item.r_order}">${item.r_content}
 			</td>
-			<td>${item.r_content}</td>
+			<td>${item.r_writer}</td>
 			<td>${item.r_date}</td>
         </c:if>
 	</tr>

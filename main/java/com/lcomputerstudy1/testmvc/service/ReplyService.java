@@ -61,4 +61,9 @@ public class ReplyService {
 		dao.deleteReply(reply);
 		
 	}
+
+	public void reReply(Reply reply) {
+		dao.reReply(reply);
+		
+	}
 }

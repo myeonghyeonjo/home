@@ -535,12 +535,26 @@ public class controller extends HttpServlet {
 				reply.setr_idx(Integer.parseInt(request.getParameter("r_idx")));
 				reply.setr_group(Integer.parseInt(request.getParameter("b_idx")));
 				reply.setr_replygroup(Integer.parseInt(request.getParameter("r_replygroup")));
-				reply.setr_writer(request.getParameter("r_writer"));
-				reply.setr_content(request.getParameter("r_contetn"));
+				reply.setr_writer(request.getParameter("writer"));
+				reply.setr_content(request.getParameter("content"));
+				reply.setr_order(Integer.parseInt(request.getParameter("r_order")));
+				reply.setr_depth(Integer.parseInt(request.getParameter("r_depth")));
 				
 				
+				replyService = ReplyService.getInstance();
+				replyService.reReply(reply);
 				
 				
+				board = new Board();
+				board.setb_idx(Integer.parseInt(request.getParameter("b_idx")));
+				
+				ArrayList<Reply> list6 =replyService.getreplylist(reply);
+				
+				
+				request.setAttribute("list", list6);
+				request.setAttribute("board", board);
+				
+				view = "reply/result";
 				break;
 				
 				

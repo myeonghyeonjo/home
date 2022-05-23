@@ -55,4 +55,19 @@ public class BoardService {
 		dao.insertReply(board);
 		
 	}
+
+	public ArrayList<Board> searchtitle(Board board) {
+		return dao.searchtitle(board);
+		
+	}
+
+	public ArrayList<Board> searchwriter(Board board) {
+		// TODO Auto-generated method stub
+		return dao.searchwriter(board);
+	}
+
+	public ArrayList<Board> searchtitlecontent(Board board) {
+		// TODO Auto-generated method stub
+		return dao.searchtitlecontent(board);
+	}
 }

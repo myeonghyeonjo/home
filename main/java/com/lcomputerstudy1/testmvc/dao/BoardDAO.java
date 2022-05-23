@@ -293,6 +293,140 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 		}
-	}	
+	}
+
+	public ArrayList<Board> searchtitle(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Board> list = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from board where b_title like ? order by b_order asc";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setString(1, '%'+board.getb_title()+'%');
+	       	rs = pstmt.executeQuery();
+	        
+	        list = new ArrayList<Board>();
+
+	        while(rs.next()){     
+	        	Board Board = new Board();
+	        	Board.setb_title(rs.getString("b_title"));
+	        	Board.setb_count(rs.getInt("b_count"));
+	        	Board.setb_content(rs.getString("b_content"));
+	        	Board.setb_date(rs.getString("b_date"));
+	        	Board.setb_writer(rs.getString("b_writer"));
+	        	Board.setb_idx(rs.getInt("b_idx"));
+	        	Board.setb_group(rs.getInt("b_group"));
+	        	Board.setb_order(rs.getInt("b_order"));
+	        	Board.setb_depth(rs.getInt("b_depth"));
+	        	
+	        	list.add(Board);
+	        }
+		} catch (Exception e) {
+			
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Board> searchwriter(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Board> list = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from board where b_writer like ? order by b_order asc";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setString(1, '%'+board.getb_writer()+'%');
+	       	rs = pstmt.executeQuery();
+	        
+	        list = new ArrayList<Board>();
+
+	        while(rs.next()){     
+	        	Board Board = new Board();
+	        	Board.setb_title(rs.getString("b_title"));
+	        	Board.setb_count(rs.getInt("b_count"));
+	        	Board.setb_content(rs.getString("b_content"));
+	        	Board.setb_date(rs.getString("b_date"));
+	        	Board.setb_writer(rs.getString("b_writer"));
+	        	Board.setb_idx(rs.getInt("b_idx"));
+	        	Board.setb_group(rs.getInt("b_group"));
+	        	Board.setb_order(rs.getInt("b_order"));
+	        	Board.setb_depth(rs.getInt("b_depth"));
+	        	
+	        	list.add(Board);
+	        }
+		} catch (Exception e) {
+			
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Board> searchtitlecontent(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Board> list = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from board where b_title like ? or b_content like ?  order by b_order asc";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setString(1, '%'+board.getb_title()+'%');
+	    	pstmt.setString(2, '%'+board.getb_content()+'%');
+		       
+	       	rs = pstmt.executeQuery();
+	        
+	        list = new ArrayList<Board>();
+
+	        while(rs.next()){     
+	        	Board Board = new Board();
+	        	Board.setb_title(rs.getString("b_title"));
+	        	Board.setb_count(rs.getInt("b_count"));
+	        	Board.setb_content(rs.getString("b_content"));
+	        	Board.setb_date(rs.getString("b_date"));
+	        	Board.setb_writer(rs.getString("b_writer"));
+	        	Board.setb_idx(rs.getInt("b_idx"));
+	        	Board.setb_group(rs.getInt("b_group"));
+	        	Board.setb_order(rs.getInt("b_order"));
+	        	Board.setb_depth(rs.getInt("b_depth"));
+	        	
+	        	list.add(Board);
+	        }
+		} catch (Exception e) {
+			
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
 }
 

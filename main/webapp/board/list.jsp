@@ -28,6 +28,35 @@
 </style>
 <body>
 <h1>게시글 목록</h1>
+	<form action="board-search-process.do" method="post">
+
+				  <form>
+            <select name="opt">
+					<option value="0">제목1</option>
+				
+
+					<option value="1">작성자</option>
+
+					<option value="2">제목+내용</option>
+
+				</select>
+
+				&emsp;
+
+				<input type="text" name="keyWord">&emsp;
+
+				<input type="submit"  value="검색">
+
+			</form>
+
+
+
+
+
+
+
+
+	
 	<table >
 		<tr>
 			<th>제목</th>
@@ -54,5 +83,9 @@
 		     <tr>
 		</c:forEach>
 	</table>
+	
+	
+
+
 </body>
 </html>

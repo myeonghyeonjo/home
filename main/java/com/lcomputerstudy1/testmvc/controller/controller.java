@@ -562,14 +562,35 @@ public class controller extends HttpServlet {
 				
 				
 				
+			case "/board-search-process.do":
+				
+				board = new Board();
 				
 				
+				board.setb_opt(Integer.parseInt(request.getParameter("opt")));
+				if(board.getb_opt()==0) {
+					board.setb_title(request.getParameter("keyWord"));
+					boardService = BoardService.getInstance();
+					ArrayList<Board> list7 = boardService.searchtitle(board);
+					request.setAttribute("list", list7);
+					request.setAttribute("board", board);
+				} else if(board.getb_opt()==1) {
+					board.setb_writer(request.getParameter("keyWord"));
+					boardService = BoardService.getInstance();
+					ArrayList<Board> list7 = boardService.searchwriter(board);
+					request.setAttribute("list", list7);
+					request.setAttribute("board", board);
+				} else if(board.getb_opt()==2) {
+					board.setb_title(request.getParameter("keyWord"));
+					board.setb_content(request.getParameter("keyWord"));
+					boardService = BoardService.getInstance();
+					ArrayList<Board> list7 = boardService.searchtitlecontent(board);
+					request.setAttribute("list", list7);
+					request.setAttribute("board", board);
+				}
 				
-				
-				
-				
-				
-				
+				view = "board/list";
+				break;
 				
 		}
 		RequestDispatcher rd = request.getRequestDispatcher(view+".jsp");

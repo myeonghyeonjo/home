@@ -14,6 +14,8 @@ public class Board {
 	private int b_depth;
 	
 	
+	private int b_opt;
+	
 	
 	public String getb_title() {
 		return  b_title;
@@ -69,4 +71,16 @@ public class Board {
 	public void setb_depth(int b_depth) {
 		this.b_depth=b_depth;
 	}
+	
+	
+	public int getb_opt() {
+		return b_opt;
+	}
+	public void setb_opt(int b_opt) {
+		this.b_opt=b_opt;
+	}
+	
+	
+	
+	
 }

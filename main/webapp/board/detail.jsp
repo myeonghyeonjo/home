@@ -83,7 +83,6 @@
 			<th>내용</th>
 			<th>글쓴이</th>
 			<th>작성일시</th>
-			
 		</tr>
 		<c:forEach items="${list}" var="item">
 			 <tr>
@@ -96,9 +95,7 @@
                         		</c:forEach>
                         			RE : 
                     		</c:if>	
-			 				<td>${item.r_content }</td>
-			 				</td>
-			 				
+                    		${item.r_content }</td>
 			 				<td>${item.r_writer}</td>
 							<td>${item.r_date}</td>
 							<td>

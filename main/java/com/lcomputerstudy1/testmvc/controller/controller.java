@@ -59,6 +59,8 @@ public class controller extends HttpServlet {
 		int usercount = 0;
 		int page = 1;
 		int count = 0;
+		int boardcount = 0;
+		int page2 = 1;
 		
 		String pw = null;
 		String idx = null;
@@ -212,11 +214,77 @@ public class controller extends HttpServlet {
 				
 				
 			case "/board-list.do":
+				
+				
+				String reqPage1 = request.getParameter("page");
+				if(reqPage1 != null)
+					page = Integer.parseInt(reqPage1);
+				board = new Board();
 				boardService = BoardService.getInstance();
+				board.setb_opt(0);
+				boardcount = boardService.getBoardsCount(board);
+				
+				Pagination pagination2 = new Pagination();
+				pagination2.setPage(page);
+				pagination2.setCount(boardcount);
+				pagination2.init();
+				
+				ArrayList<Board> list1 = boardService.getBoards(pagination2);
+				
+				
+				request.setAttribute("list", list1);
+				request.setAttribute("pagination",pagination2);
+				
+				view = "board/list";
+				break;
+				
+				
+				
+				
+				/*String reqPage1 = request.getParameter("page");
+				if (reqPage1 != null) { 
+					page = Integer.parseInt(reqPage1);
+					
+				}
+				boardService = BoardService.getInstance();
+				ArrayList<Board> list1 = boardService.getBoards(page);
+				boardcount = boardService.getBoardsCount();
+				request.setAttribute("list", list1);
+				request.setAttribute("boardcount", boardcount);
+				
+				view = "board/list";
+				break;*/
+	
+				
+				
+				
+				
+				
+				
+				
+				/*boardService = BoardService.getInstance();
+				ArrayList<Board> list1 = boardService.getBoards();
+				boardcount = boardService.getBoardsCount();
+				request.setAttribute("list", list1);
+				request.setAttribute("boardcount", boardcount);
+
+
+				view = "board/list";
+				break;*/
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				/*boardService = BoardService.getInstance();
 				ArrayList<Board> list1 = boardService.getBoards();
 				request.setAttribute("list", list1);
 				view = "board/list";
-				break;
+				break;*/
 				
 			case "/board-insert.do":
 				view = "board/insert";	
@@ -566,27 +634,82 @@ public class controller extends HttpServlet {
 				
 				board = new Board();
 				
-				
 				board.setb_opt(Integer.parseInt(request.getParameter("opt")));
-				if(board.getb_opt()==0) {
+				
+				if(board.getb_opt()==1) {
+					
 					board.setb_title(request.getParameter("keyWord"));
+					
+					String reqPage2 = request.getParameter("page");
+					if(reqPage2 != null)
+						page = Integer.parseInt(reqPage2);
+					
+					boardService = BoardService.getInstance();
+					boardcount = boardService.getBoardsCount(board);
+					
+					Pagination pagination3 = new Pagination();
+					pagination3.setPage(page);
+					pagination3.setCount(boardcount);
+					pagination3.init();
+					
+					
+					ArrayList<Board> list8 = boardService.searchtitle(pagination3,board);
+					
+					request.setAttribute("list", list8);
+					request.setAttribute("pagination",pagination3);
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					/*board.setb_title(request.getParameter("keyWord"));
 					boardService = BoardService.getInstance();
 					ArrayList<Board> list7 = boardService.searchtitle(board);
-					request.setAttribute("list", list7);
-					request.setAttribute("board", board);
-				} else if(board.getb_opt()==1) {
+					request.setAttribute("list", list7);*/
+					
+					
+					
+					
+				
+					
+					
+					
+					
+					
+					
+					
+					
+				} else if(board.getb_opt()==2) {
 					board.setb_writer(request.getParameter("keyWord"));
 					boardService = BoardService.getInstance();
 					ArrayList<Board> list7 = boardService.searchwriter(board);
 					request.setAttribute("list", list7);
-					request.setAttribute("board", board);
-				} else if(board.getb_opt()==2) {
+					
+				} else if(board.getb_opt()==3) {
 					board.setb_title(request.getParameter("keyWord"));
 					board.setb_content(request.getParameter("keyWord"));
 					boardService = BoardService.getInstance();
 					ArrayList<Board> list7 = boardService.searchtitlecontent(board);
 					request.setAttribute("list", list7);
-					request.setAttribute("board", board);
+					
 				}
 				
 				view = "board/list";

@@ -19,12 +19,33 @@
 		border:1px solid #818181;
 		width:200px;
 		
+		
 	}
 	a {
 		text-decoration:none;
 		color:#000;
 		font-weight:700;
 	}
+	
+	
+	ul {
+		width:400px;
+		height:50px;
+		margin:10px auto;
+	}
+	li {
+		list-style:none;
+		width:50px;
+		line-height:50px;
+		border:1px solid #ededed;
+		float:left;
+		text-align:center;
+		margin:0 5px;
+		border-radius:5px;
+	}
+
+
+	
 </style>
 <body>
 <h1>게시글 목록</h1>
@@ -32,12 +53,12 @@
 
 				  <form>
             <select name="opt">
-					<option value="0">제목1</option>
+					<option value="1">제목1</option>
 				
 
-					<option value="1">작성자</option>
+					<option value="2">작성자</option>
 
-					<option value="2">제목+내용</option>
+					<option value="3">제목+내용</option>
 
 				</select>
 
@@ -59,6 +80,9 @@
 	
 	<table >
 		<tr>
+			<td colspan="3">전체 게시글 수 : ${pagination.count}</td>
+		<tr>
+		<tr>	
 			<th>제목</th>
 			<th>작성자</th>
 			<th>조회수</th>
@@ -83,8 +107,47 @@
 		     <tr>
 		</c:forEach>
 	</table>
+
+
 	
-	
+<!-- 아래부터 pagination -->
+	<div>
+		<ul>
+			 <c:choose>
+				<c:when test="${ pagination.prevPage >= 1}">
+					<li>
+						<a href="board-list.do?page=${pagination.prevPage}">
+							◀
+						</a>
+					</li>
+				</c:when>
+			</c:choose> 
+			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
+				
+					<c:choose>
+						<c:when test="${ pagination.page eq i }">
+							
+							<li style="background-color:#ededed;">
+								<span>${i}</span>
+							</li>
+						</c:when>
+						<c:when test="${ pagination.page ne i }">
+							<li>
+								<a href="board-list.do?page=${i}">${i}</a>
+							</li>
+						</c:when>
+					</c:choose>
+			</c:forEach>
+			 <c:choose>
+				<c:when test="${ pagination.nextPage le pagination.lastPage }">
+					<li style="">
+						<a href="board-list.do?page=${pagination.nextPage}">▶</a>
+					</li>
+				</c:when>
+			</c:choose> 
+		</ul>
+	</div>
+
 
 
 </body>

@@ -25,21 +25,45 @@ public class BoardDAO {
 		return dao;
 	}
 
-	public ArrayList<Board> getBoards() {
+	public ArrayList<Board> getBoards(Pagination pagination) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
+		int pageNum = pagination.getPageNum();
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from board order by b_order asc";
+			//String query = "select * from board limit ?,3";
+			String query = new StringBuilder()
+					.append("SELECT 		@ROWNUM := @ROWNUM - 1 AS ROWNUM,\n")
+					.append("				ta.*\n")
+					.append("FROM 			board ta,\n")
+					.append("				(SELECT @rownum := (SELECT	COUNT(*)-?+1 FROM board ta)) tb\n")
+					.append("ORDER BY       b_order asc\n")
+					.append("LIMIT			?, 3\n")
+					.toString();
+			
 	       	pstmt = conn.prepareStatement(query);
-	        rs = pstmt.executeQuery();
+	       	pstmt.setInt(1, pageNum);
+	       	pstmt.setInt(2, pageNum);
+	       	rs = pstmt.executeQuery();
 	        list = new ArrayList<Board>();
+			
+			
+			/*conn = DBConnection.getConnection();
+			String query = "select * from board  order by b_order asc limit ?,3";
+	       	pstmt = conn.prepareStatement(query);
+	       
+	    	pstmt.setInt(1, page);
+	    	rs = pstmt.executeQuery();
 
+
+	        list = new ArrayList<Board>();
+*/
 	        while(rs.next()){     
 	        	Board Board = new Board();
+	        	Board.setRownum(rs.getInt("ROWNUM"));
 	        	Board.setb_title(rs.getString("b_title"));
 	        	Board.setb_count(rs.getInt("b_count"));
 	        	Board.setb_content(rs.getString("b_content"));
@@ -295,20 +319,73 @@ public class BoardDAO {
 		}
 	}
 
-	public ArrayList<Board> searchtitle(Board board) {
+	public ArrayList<Board> searchtitle(Pagination pagination, Board board) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
 		
+		
+		
+		
+		
+		
+		int pageNum = pagination.getPageNum();
+		
+		
+		
 		try {
+			
+			
+			
+			
 			conn = DBConnection.getConnection();
+			//String query = "select * from board limit ?,3";
+			String query = new StringBuilder()
+					.append("SELECT 		@ROWNUM := @ROWNUM - 1 AS ROWNUM,\n")
+					.append("				ta.*\n")
+					.append("FROM 			board ta,\n")
+					.append("				(SELECT @rownum := (SELECT	COUNT(*)-?+1 FROM board ta)) tb\n")
+					.append("WHERE b_title like ?")
+					.append("ORDER BY       b_order asc\n")
+					.append("LIMIT			?, 3\n")
+					.toString();
+			
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setInt(1, pageNum);
+	      	pstmt.setString(2, '%'+board.getb_title()+'%');
+	       	pstmt.setInt(3, pageNum);
+	       	rs = pstmt.executeQuery();
+	        list = new ArrayList<Board>();
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/*conn = DBConnection.getConnection();
 			String query = "select * from board where b_title like ? order by b_order asc";
 	       	pstmt = conn.prepareStatement(query);
 	       	pstmt.setString(1, '%'+board.getb_title()+'%');
 	       	rs = pstmt.executeQuery();
 	        
-	        list = new ArrayList<Board>();
+	        list = new ArrayList<Board>();*/
+	        
+	        
+	        
+	        
 
 	        while(rs.next()){     
 	        	Board Board = new Board();
@@ -344,6 +421,7 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
+		
 		
 		try {
 			conn = DBConnection.getConnection();
@@ -427,6 +505,107 @@ public class BoardDAO {
 		}
 		
 		return list;
+	}
+
+	public int getBoardsCount(Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		if(board.getb_opt()==0) {
+			try {
+			conn = DBConnection.getConnection();
+			String query = "SELECT COUNT(*) count FROM board ";
+	       	pstmt = conn.prepareStatement(query);
+	        rs = pstmt.executeQuery();
+	        
+	        while(rs.next()){     
+	        	count = rs.getInt("count");
+	        }
+		} catch (Exception e) {
+			
+		} finally {
+			try {
+				if (rs != null) rs.close();
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		} else if(board.getb_opt()==1) {
+			try {
+				conn = DBConnection.getConnection();
+				String query = "SELECT COUNT(*) count FROM board where b_title like ?";
+				
+				
+				pstmt = conn.prepareStatement(query);
+		       	pstmt.setString(1, '%'+board.getb_title()+'%');
+		       	rs = pstmt.executeQuery();
+		
+		        
+		        while(rs.next()){     
+		        	count = rs.getInt("count");
+		        }
+			} catch (Exception e) {
+				
+			} finally {
+				try {
+					if (rs != null) rs.close();
+					if (pstmt != null) pstmt.close();
+					if (conn != null) conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} else if(board.getb_opt()==2) {
+			try {
+				conn = DBConnection.getConnection();
+				String query = "SELECT COUNT(*) count FROM board where b_writer like ?";
+		       	pstmt = conn.prepareStatement(query);
+		       	pstmt.setString(1, '%'+board.getb_writer()+'%');
+		        rs = pstmt.executeQuery();
+		        
+		        while(rs.next()){     
+		        	count = rs.getInt("count");
+		        }
+			} catch (Exception e) {
+				
+			} finally {
+				try {
+					if (rs != null) rs.close();
+					if (pstmt != null) pstmt.close();
+					if (conn != null) conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} else if(board.getb_opt()==3) {
+			try {
+				conn = DBConnection.getConnection();
+				String query = "SELECT COUNT(*) count FROM board where b_title like ? or b_content like ?";
+		       	pstmt = conn.prepareStatement(query);
+		       	pstmt.setString(1, '%'+board.getb_title()+'%');
+		    	pstmt.setString(2, '%'+board.getb_content()+'%');
+		        rs = pstmt.executeQuery();
+		        
+		        while(rs.next()){     
+		        	count = rs.getInt("count");
+		        }
+			} catch (Exception e) {
+				
+			} finally {
+				try {
+					if (rs != null) rs.close();
+					if (pstmt != null) pstmt.close();
+					if (conn != null) conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return count;
 	}
 }
 

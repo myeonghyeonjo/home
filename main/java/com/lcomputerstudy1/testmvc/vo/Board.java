@@ -15,7 +15,7 @@ public class Board {
 	
 	
 	private int b_opt;
-	
+	private int rownum;
 	
 	public String getb_title() {
 		return  b_title;
@@ -78,6 +78,12 @@ public class Board {
 	}
 	public void setb_opt(int b_opt) {
 		this.b_opt=b_opt;
+	}
+	public void setRownum(int ROWNUM) {
+		this.rownum = ROWNUM;
+	}
+	public int getRownum() {
+		return rownum;
 	}
 	
 	

@@ -1,4 +1,7 @@
 package com.lcomputerstudy1.testmvc.vo;
+import com.lcomputerstudy1.testmvc.service.UserService;
+import com.lcomputerstudy1.testmvc.service.BoardService;
+
 
 public class Pagination {
 	int count;       // user테이블에 등록 된 총 user 수
@@ -29,8 +32,8 @@ public class Pagination {
 	public int getCount() {
 		return count;
 	}
-	public void setCount(int userCount) {
-		this.count = userCount;
+	public void setCount(int Count) {
+		this.count = Count;
 	}
 	public int getPage() {
 		return page;

@@ -24,8 +24,8 @@ public class BoardService {
 		return service;
 	}
 
-	public ArrayList<Board> getBoards() {
-		return dao.getBoards();
+	public ArrayList<Board> getBoards(Pagination pagination) {
+		return dao.getBoards(pagination);
 	}
 	
 	public void insertBoard(Board board) {
@@ -56,8 +56,8 @@ public class BoardService {
 		
 	}
 
-	public ArrayList<Board> searchtitle(Board board) {
-		return dao.searchtitle(board);
+	public ArrayList<Board> searchtitle(Pagination pagination, Board board) {
+		return dao.searchtitle(pagination, board);
 		
 	}
 
@@ -70,4 +70,12 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		return dao.searchtitlecontent(board);
 	}
+	
+	public int getBoardsCount(Board board) {
+		return dao.getBoardsCount(board);
+	}
+	
+	
+	
+	
 }

@@ -61,14 +61,14 @@ public class BoardService {
 		
 	}
 
-	public ArrayList<Board> searchwriter(Board board) {
+	public ArrayList<Board> searchwriter(Pagination pagination,Board board) {
 		// TODO Auto-generated method stub
-		return dao.searchwriter(board);
+		return dao.searchwriter(pagination, board);
 	}
 
-	public ArrayList<Board> searchtitlecontent(Board board) {
+	public ArrayList<Board> searchtitlecontent(Pagination pagination,Board board) {
 		// TODO Auto-generated method stub
-		return dao.searchtitlecontent(board);
+		return dao.searchtitlecontent(pagination,board);
 	}
 	
 	public int getBoardsCount(Board board) {

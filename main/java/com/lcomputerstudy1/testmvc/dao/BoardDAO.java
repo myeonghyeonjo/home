@@ -324,21 +324,9 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
-		
-		
-		
-		
-		
-		
 		int pageNum = pagination.getPageNum();
 		
-		
-		
 		try {
-			
-			
-			
-			
 			conn = DBConnection.getConnection();
 			//String query = "select * from board limit ?,3";
 			String query = new StringBuilder()
@@ -357,24 +345,6 @@ public class BoardDAO {
 	       	pstmt.setInt(3, pageNum);
 	       	rs = pstmt.executeQuery();
 	        list = new ArrayList<Board>();
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			/*conn = DBConnection.getConnection();
 			String query = "select * from board where b_title like ? order by b_order asc";
 	       	pstmt = conn.prepareStatement(query);
@@ -382,11 +352,6 @@ public class BoardDAO {
 	       	rs = pstmt.executeQuery();
 	        
 	        list = new ArrayList<Board>();*/
-	        
-	        
-	        
-	        
-
 	        while(rs.next()){     
 	        	Board Board = new Board();
 	        	Board.setb_title(rs.getString("b_title"));
@@ -416,68 +381,102 @@ public class BoardDAO {
 		return list;
 	}
 
-	public ArrayList<Board> searchwriter(Board board) {
+	public ArrayList<Board> searchwriter(Pagination pagination,Board board) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ArrayList<Board> list = null;
-		
+		int pageNum = pagination.getPageNum();
 		
 		try {
 			conn = DBConnection.getConnection();
-			String query = "select * from board where b_writer like ? order by b_order asc";
+			//String query = "select * from board limit ?,3";
+			String query = new StringBuilder()
+					.append("SELECT 		@ROWNUM := @ROWNUM - 1 AS ROWNUM,\n")
+					.append("				ta.*\n")
+					.append("FROM 			board ta,\n")
+					.append("				(SELECT @rownum := (SELECT	COUNT(*)-?+1 FROM board ta)) tb\n")
+					.append("WHERE b_writer like ?")
+					.append("ORDER BY       b_order asc\n")
+					.append("LIMIT			?, 3\n")
+					.toString();
+			
 	       	pstmt = conn.prepareStatement(query);
-	       	pstmt.setString(1, '%'+board.getb_writer()+'%');
+	       	pstmt.setInt(1, pageNum);
+	      	pstmt.setString(2, '%'+board.getb_writer()+'%');
+	       	pstmt.setInt(3, pageNum);
 	       	rs = pstmt.executeQuery();
-	        
 	        list = new ArrayList<Board>();
-
-	        while(rs.next()){     
-	        	Board Board = new Board();
-	        	Board.setb_title(rs.getString("b_title"));
-	        	Board.setb_count(rs.getInt("b_count"));
-	        	Board.setb_content(rs.getString("b_content"));
-	        	Board.setb_date(rs.getString("b_date"));
-	        	Board.setb_writer(rs.getString("b_writer"));
-	        	Board.setb_idx(rs.getInt("b_idx"));
-	        	Board.setb_group(rs.getInt("b_group"));
-	        	Board.setb_order(rs.getInt("b_order"));
-	        	Board.setb_depth(rs.getInt("b_depth"));
-	        	
-	        	list.add(Board);
-	        }
-		} catch (Exception e) {
-			
-		} finally {
-			try {
-				rs.close();
-				pstmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return list;
-	}
-
-	public ArrayList<Board> searchtitlecontent(Board board) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ArrayList<Board> list = null;
-		
-		try {
-			conn = DBConnection.getConnection();
-			String query = "select * from board where b_title like ? or b_content like ?  order by b_order asc";
+			/*conn = DBConnection.getConnection();
+			String query = "select * from board where b_title like ? order by b_order asc";
 	       	pstmt = conn.prepareStatement(query);
 	       	pstmt.setString(1, '%'+board.getb_title()+'%');
-	    	pstmt.setString(2, '%'+board.getb_content()+'%');
-		       
 	       	rs = pstmt.executeQuery();
 	        
-	        list = new ArrayList<Board>();
+	        list = new ArrayList<Board>();*/
+	        while(rs.next()){     
+	        	Board Board = new Board();
+	        	Board.setb_title(rs.getString("b_title"));
+	        	Board.setb_count(rs.getInt("b_count"));
+	        	Board.setb_content(rs.getString("b_content"));
+	        	Board.setb_date(rs.getString("b_date"));
+	        	Board.setb_writer(rs.getString("b_writer"));
+	        	Board.setb_idx(rs.getInt("b_idx"));
+	        	Board.setb_group(rs.getInt("b_group"));
+	        	Board.setb_order(rs.getInt("b_order"));
+	        	Board.setb_depth(rs.getInt("b_depth"));
+	        	
+	        	list.add(Board);
+	        }
+		} catch (Exception e) {
+			
+		} finally {
+			try {
+				rs.close();
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
 
+	public ArrayList<Board> searchtitlecontent(Pagination pagination,Board board) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Board> list = null;
+		int pageNum = pagination.getPageNum();
+		
+		try {
+			conn = DBConnection.getConnection();
+			//String query = "select * from board limit ?,3";
+			String query = new StringBuilder()
+					.append("SELECT 		@ROWNUM := @ROWNUM - 1 AS ROWNUM,\n")
+					.append("				ta.*\n")
+					.append("FROM 			board ta,\n")
+					.append("				(SELECT @rownum := (SELECT	COUNT(*)-?+1 FROM board ta)) tb\n")
+					.append("WHERE b_title like ? or b_content like ?")
+					.append("ORDER BY       b_order asc\n")
+					.append("LIMIT			?, 3\n")
+					.toString();
+			
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setInt(1, pageNum);
+	      	pstmt.setString(2, '%'+board.getb_title()+'%');
+	    	pstmt.setString(3, '%'+board.getb_content()+'%');
+	       	pstmt.setInt(4, pageNum);
+	       	rs = pstmt.executeQuery();
+	        list = new ArrayList<Board>();
+			/*conn = DBConnection.getConnection();
+			String query = "select * from board where b_title like ? order by b_order asc";
+	       	pstmt = conn.prepareStatement(query);
+	       	pstmt.setString(1, '%'+board.getb_title()+'%');
+	       	rs = pstmt.executeQuery();
+	        
+	        list = new ArrayList<Board>();*/
 	        while(rs.next()){     
 	        	Board Board = new Board();
 	        	Board.setb_title(rs.getString("b_title"));
@@ -608,4 +607,3 @@ public class BoardDAO {
 		return count;
 	}
 }
-

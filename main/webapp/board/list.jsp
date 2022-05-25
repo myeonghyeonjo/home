@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <title>게시글목록</title>
 </head>
 <style>
@@ -111,6 +112,8 @@
 
 	
 <!-- 아래부터 pagination -->
+
+<c:if test="${board.b_opt==0 }">
 	<div>
 		<ul>
 			 <c:choose>
@@ -133,7 +136,7 @@
 						</c:when>
 						<c:when test="${ pagination.page ne i }">
 							<li>
-								<a href="board-list.do?page=${i}">${i}</a>
+								<a href="board-list.do?page=${i}">${i} </a>
 							</li>
 						</c:when>
 					</c:choose>
@@ -148,7 +151,128 @@
 		</ul>
 	</div>
 
+</c:if>
 
+
+<c:if test="${board.b_opt==1 }">
+	<div>
+		<ul>
+			 <c:choose>
+				<c:when test="${ pagination.prevPage >= 1}">
+					<li>
+						<a href="board-search-process.do?page=${pagination.prevPage}&opt=1&keyWord=${board.b_title}">
+							◀
+						</a>
+					</li>
+				</c:when>
+			</c:choose> 
+			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
+				
+					<c:choose>
+						<c:when test="${ pagination.page eq i }">
+							
+							<li style="background-color:#ededed;">
+								<span>${i}</span>
+							</li>
+						</c:when>
+						<c:when test="${ pagination.page ne i }">
+							<li>
+								<a href="board-search-process.do?page=${i}&opt=1&keyWord=${board.b_title}">${i}</a>
+							</li>
+						</c:when>
+					</c:choose>
+			</c:forEach>
+			 <c:choose>
+				<c:when test="${ pagination.nextPage le pagination.lastPage }">
+					<li style="">
+						<a href="board-search-process.do?page=${pagination.nextPage}&opt=1&keyWord=${board.b_title}">▶</a>
+					</li>
+				</c:when>
+			</c:choose> 
+		</ul>
+	</div>
+</c:if>
+
+
+
+<c:if test="${board.b_opt==2 }">
+<div>
+		<ul>
+			 <c:choose>
+				<c:when test="${ pagination.prevPage >= 1}">
+					<li>
+						<a href="board-search-process.do?page=${pagination.prevPage}&opt=2&keyWord=${board.b_writer}">
+							◀
+						</a>
+					</li>
+				</c:when>
+			</c:choose> 
+			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
+				
+					<c:choose>
+						<c:when test="${ pagination.page eq i }">
+							
+							<li style="background-color:#ededed;">
+								<span>${i}</span>
+							</li>
+						</c:when>
+						<c:when test="${ pagination.page ne i }">
+							<li>
+								<a href="board-search-process.do?page=${i}&opt=2&keyWord=${board.b_writer}">${i}</a>
+							</li>
+						</c:when>
+					</c:choose>
+			</c:forEach>
+			 <c:choose>
+				<c:when test="${ pagination.nextPage le pagination.lastPage }">
+					<li style="">
+						<a href="board-search-process.do?page=${pagination.nextPage}&opt=2&keyWord=${board.b_writer}">▶</a>
+					</li>
+				</c:when>
+			</c:choose> 
+		</ul>
+	</div>
+
+</c:if>
+
+<c:if test="${board.b_opt==3 }">
+<div>
+		<ul>
+			 <c:choose>
+				<c:when test="${ pagination.prevPage >= 1}">
+					<li>
+						<a href="board-search-process.do?page=${pagination.prevPage}&opt=3&keyWord=${board.b_title}">
+							◀
+						</a>
+					</li>
+				</c:when>
+			</c:choose> 
+			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
+				
+					<c:choose>
+						<c:when test="${ pagination.page eq i }">
+							
+							<li style="background-color:#ededed;">
+								<span>${i}</span>
+							</li>
+						</c:when>
+						<c:when test="${ pagination.page ne i }">
+							<li>
+								<a href="board-search-process.do?page=${i}&opt=3&keyWord=${board.b_title}">${i}</a>
+							</li>
+						</c:when>
+					</c:choose>
+			</c:forEach>
+			 <c:choose>
+				<c:when test="${ pagination.nextPage le pagination.lastPage }">
+					<li style="">
+						<a href="board-search-process.do?page=${pagination.nextPage}&opt=3&keyWord=${board.b_title}">▶</a>
+					</li>
+				</c:when>
+			</c:choose> 
+		</ul>
+	</div>
+</c:if>
 
 </body>
 </html>

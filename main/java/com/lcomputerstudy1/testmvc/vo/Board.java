@@ -13,7 +13,6 @@ public class Board {
 	private int b_order;
 	private int b_depth;
 	
-	
 	private int b_opt;
 	private int rownum;
 	

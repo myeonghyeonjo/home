@@ -121,23 +121,12 @@
 			  		<input type="button" value="취소2" class="btnCancel">
 			  	</td>
 			  </tr>
-			
-			
-			  
-			  
 		</c:forEach>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	</table>
+	
+	
+	
+	
 	
 	
 	
@@ -155,7 +144,7 @@ $(document).on('click', '.btnUpdate', function () {
 });
 
 $(document).on('click', '.btnCancel', function () {
-	$(this).parent().parent().next().css("display", "");
+	
 	$(this).parent().parent().css("display", "none");
 });
 

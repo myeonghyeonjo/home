@@ -231,7 +231,7 @@ public class controller extends HttpServlet {
 				
 				ArrayList<Board> list1 = boardService.getBoards(pagination2);
 				
-				
+				request.setAttribute("board",board);
 				request.setAttribute("list", list1);
 				request.setAttribute("pagination",pagination2);
 				
@@ -651,69 +651,64 @@ public class controller extends HttpServlet {
 					pagination3.setPage(page);
 					pagination3.setCount(boardcount);
 					pagination3.init();
-					
-					
 					ArrayList<Board> list8 = boardService.searchtitle(pagination3,board);
-					
+					request.setAttribute("board",board);
 					request.setAttribute("list", list8);
 					request.setAttribute("pagination",pagination3);
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
 					/*board.setb_title(request.getParameter("keyWord"));
 					boardService = BoardService.getInstance();
 					ArrayList<Board> list7 = boardService.searchtitle(board);
 					request.setAttribute("list", list7);*/
-					
-					
-					
-					
 				
-					
-					
-					
-					
-					
-					
-					
-					
 				} else if(board.getb_opt()==2) {
 					board.setb_writer(request.getParameter("keyWord"));
+					
+					String reqPage2 = request.getParameter("page");
+					if(reqPage2 != null)
+						page = Integer.parseInt(reqPage2);
+					
 					boardService = BoardService.getInstance();
-					ArrayList<Board> list7 = boardService.searchwriter(board);
-					request.setAttribute("list", list7);
+					boardcount = boardService.getBoardsCount(board);
+					
+					Pagination pagination3 = new Pagination();
+					pagination3.setPage(page);
+					pagination3.setCount(boardcount);
+					pagination3.init();
+					
+					
+					ArrayList<Board> list8 = boardService.searchwriter(pagination3,board);
+					request.setAttribute("board",board);
+					request.setAttribute("list", list8);
+					request.setAttribute("pagination",pagination3);
 					
 				} else if(board.getb_opt()==3) {
-					board.setb_title(request.getParameter("keyWord"));
 					board.setb_content(request.getParameter("keyWord"));
+					board.setb_title(request.getParameter("keyWord"));
+					
+					String reqPage2 = request.getParameter("page");
+					if(reqPage2 != null)
+						page = Integer.parseInt(reqPage2);
+					
 					boardService = BoardService.getInstance();
-					ArrayList<Board> list7 = boardService.searchtitlecontent(board);
-					request.setAttribute("list", list7);
+					boardcount = boardService.getBoardsCount(board);
+					
+					Pagination pagination3 = new Pagination();
+					pagination3.setPage(page);
+					pagination3.setCount(boardcount);
+					pagination3.init();
+					
+					
+					ArrayList<Board> list8 = boardService.searchtitlecontent(pagination3,board);
+					request.setAttribute("board",board);
+					request.setAttribute("list", list8);
+					request.setAttribute("pagination",pagination3);
 					
 				}
 				
 				view = "board/list";
 				break;
+				
+				
 				
 		}
 		RequestDispatcher rd = request.getRequestDispatcher(view+".jsp");

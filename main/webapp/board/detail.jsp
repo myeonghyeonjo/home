@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <title>게시판 상세</title>
 <style>
@@ -27,6 +27,19 @@
 </style>
 </head>
 <body>
+
+
+<iframe id="ifrm_filedown"  style="position:absolute; z-index:1;visibility : hidden;"></iframe>  
+
+
+
+
+
+
+
+
+
+
 	<h1>게시판 상세페이지</h1>
 	<table >
 		<tr>
@@ -58,7 +71,14 @@
 			</td>
 			
 			
-		</tr>
+			<th colspan="2">첨부파일</th>			
+			<td colspan="8">
+				<a href="#" onclick="onDownload('${article.idx}')">${article.filename}</a>
+			</td>
+		
+
+
+		
 	</table>
 	
 	<!-- 
@@ -126,6 +146,16 @@
 	
 	
 	
+	
+	
+	
+<script>
+function onDownload(idx) {
+	var o = document.getElementById("ifrm_filedown");	
+	o.src = "download.do?idx="+idx;
+}
+</script>
+
 	
 	
 	

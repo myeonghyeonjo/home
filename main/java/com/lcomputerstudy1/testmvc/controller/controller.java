@@ -12,14 +12,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import com.lcomputerstudy1.testmvc.service.BoardService;
+import com.lcomputerstudy1.testmvc.service.FileService;
 import com.lcomputerstudy1.testmvc.service.ReplyService;
 import com.lcomputerstudy1.testmvc.service.UserService;
 import com.lcomputerstudy1.testmvc.vo.Board;
+import com.lcomputerstudy1.testmvc.vo.File;
 import com.lcomputerstudy1.testmvc.vo.Pagination;
 import com.lcomputerstudy1.testmvc.vo.Reply;
 import com.lcomputerstudy1.testmvc.vo.User;
+import com.oreilly.servlet.MultipartRequest;
 
 @WebServlet("*.do")
 public class controller extends HttpServlet {
@@ -32,6 +36,11 @@ public class controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
+		
+		
+		MultipartRequest multi = null;
+		
+		
 		
 		
 		Calendar cal = Calendar.getInstance();
@@ -55,6 +64,9 @@ public class controller extends HttpServlet {
 		
 		Reply reply = null;
 		ReplyService replyService = null;
+		
+		File file = null;
+		FileService fileService = null;
 		
 		int usercount = 0;
 		int page = 1;
@@ -231,6 +243,9 @@ public class controller extends HttpServlet {
 				
 				ArrayList<Board> list1 = boardService.getBoards(pagination2);
 				
+				
+			
+				
 				request.setAttribute("board",board);
 				request.setAttribute("list", list1);
 				request.setAttribute("pagination",pagination2);
@@ -291,7 +306,79 @@ public class controller extends HttpServlet {
 				break;
 				
 			case "/board-insert-process.do":
+				
+				
+				
+				int sizeLimit = 10 * 1024 * 1024 ; // 10메가입니다.
+				String savePath = request.getSession().getServletContext().getRealPath("/upload");// 파일이 업로드될 실제 tomcat 폴더의 WebContent 기준
+				try{
+				multi=new MultipartRequest(request, savePath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				String filename = multi.getFilesystemName("filename");
+
+				String title = multi.getParameter("title");
+				String writer = multi.getParameter("writer");
+				int count2 = 0;
+				String content = multi.getParameter("content");
+				String regip = request.getRemoteAddr();
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				board = new Board();
+				board.setb_title(title);
+				board.setb_writer(writer);
+				board.setb_count(0);
+				board.setb_content(content);
+				board.setb_date(ndate);
+				
+				boardService = BoardService.getInstance();
+				boardService.insertBoard(board);
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				file = new File();
+				file.setf_title(title);
+				file.setf_group(writer);
+				file.setf_idx(board.getb_idx());
+				
+				fileService = FileService.getInstance();
+				fileService.insertFile(file);
+				
+				/*board = new Board();
 				board.setb_title(request.getParameter("title"));
 				board.setb_count(0);
 				board.setb_content(request.getParameter("content"));
@@ -300,8 +387,8 @@ public class controller extends HttpServlet {
 				
 				
 				boardService = BoardService.getInstance();
-				boardService.insertBoard(board);
-						
+				boardService.insertBoard(board);*/
+					
 				view = "board/insert-result";
 				break;
 				
@@ -317,6 +404,14 @@ public class controller extends HttpServlet {
 				replyService = ReplyService.getInstance();
 				ArrayList<Reply> list2 = replyService.getReplys();
 				request.setAttribute("list", list2);
+				
+				
+				
+			
+				
+				
+				
+				
 				
 				
 				

@@ -28,9 +28,7 @@ public class FileService {
 
 	
 	
-	public void insertFile(File file) {
-		dao.insertFile(file);
-	}
+	
 
 	
 	

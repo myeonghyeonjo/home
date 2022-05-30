@@ -36,12 +36,9 @@ public class FileDAO {
 			
 			
 			
-			String sql = "insert into file(f_title,f_group, f_idx,f_idx2) values(?,?,?,?)";
+			String sql = "insert into file(f_title) values(?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, file.getf_title());
-			pstmt.setString(2, file.getf_group());
-			pstmt.setInt(3,file.getf_idx());
-			pstmt.setInt(4,file.getf_idx());
 			pstmt.executeUpdate();
 			pstmt.close();
 			

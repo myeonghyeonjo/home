@@ -30,6 +30,7 @@ public class BoardService {
 	
 	public void insertBoard(Board board) {
 		dao.insertBoard(board);
+		dao.insertFile(board);
 	}
 
 	public Board getDetail(Board board) {
@@ -74,6 +75,7 @@ public class BoardService {
 	public int getBoardsCount(Board board) {
 		return dao.getBoardsCount(board);
 	}
+
 	
 	
 	

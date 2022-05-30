@@ -1,5 +1,7 @@
 package com.lcomputerstudy1.testmvc.vo;
 
+import java.util.List;
+
 public class Board {
 	
 	
@@ -16,6 +18,16 @@ public class Board {
 	private int b_opt;
 	private int rownum;
 	
+	
+	
+	private List<File> fileList;
+	
+	public List<File> getFileList() {
+		return fileList;
+	}
+	public void setFileList(List<File> fileList) {
+		this.fileList = fileList;
+	}
 	public String getb_title() {
 		return  b_title;
 	}

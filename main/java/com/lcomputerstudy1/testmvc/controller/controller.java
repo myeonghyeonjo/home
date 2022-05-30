@@ -309,32 +309,52 @@ public class controller extends HttpServlet {
 				
 				
 				
-				int sizeLimit = 10 * 1024 * 1024 ; // 10메가입니다.
+				
+				
 				String savePath = request.getSession().getServletContext().getRealPath("/upload");// 파일이 업로드될 실제 tomcat 폴더의 WebContent 기준
+				int sizeLimit = 10 * 1024 * 1024 ; // 10메가입니다.
+				
+				MultipartRequest req = new MultipartRequest(request, savePath, sizeLimit, "utf-8");
+				
+				Enumeration files = req.getFileNames();
+				 while (files.hasMoreElements()) {
+					   String name = (String) files.nextElement();
+					   String filename = req.getFilesystemName(name);
+					   List<File> fileList = new ArrayList<File>();
+					   
+					   while(files.hasMoreElements()) {
+						   	File f = new File();
+							f.setf_title(filename);
+							fileList.add(f);
+							
+					   }
+						   
+				
+				 }
+				 
+				 
+				 
+								
+				
 				try{
-				multi=new MultipartRequest(request, savePath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
+					multi=new MultipartRequest(request, savePath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
-				String filename = multi.getFilesystemName("filename");
-
+				String filename = multi.getFilesystemName("uploadFile");
 				String title = multi.getParameter("title");
 				String writer = multi.getParameter("writer");
-				int count2 = 0;
 				String content = multi.getParameter("content");
-				String regip = request.getRemoteAddr();
+				//String regip = request.getRemoteAddr();
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+				// ex
+				/*List<File> fileList = new ArrayList<File>();
+				while() {
+					File f = new File();
+					f.setf_title(title);
+					fileList.add(f);
+					break;
+				}*/
 				
 				
 				board = new Board();
@@ -343,40 +363,17 @@ public class controller extends HttpServlet {
 				board.setb_count(0);
 				board.setb_content(content);
 				board.setb_date(ndate);
+				board.setFileList(fileList);
 				
 				boardService = BoardService.getInstance();
 				boardService.insertBoard(board);
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				file = new File();
-				file.setf_title(title);
-				file.setf_group(writer);
-				file.setf_idx(board.getb_idx());
+		
+				/*`file = new File();
+				file.setf_title(filename);
 				
 				fileService = FileService.getInstance();
-				fileService.insertFile(file);
+				fileService.insertFile(file);*/
 				
 				/*board = new Board();
 				board.setb_title(request.getParameter("title"));

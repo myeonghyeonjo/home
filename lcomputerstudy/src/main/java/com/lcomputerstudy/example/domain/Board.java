@@ -2,9 +2,9 @@ package com.lcomputerstudy.example.domain;
 
 public class Board {
 	private int bId;
-	private String bTitle;
-	private String bContent;
-	private String bWriter;
+	private String title;
+	private String content;
+	private String writer;
 	private String bDateTime;
 	
 	
@@ -15,22 +15,22 @@ public class Board {
 		this.bId = bId;
 	}
 	public String getbTitle() {
-		return bTitle;
+		return title;
 	}
-	public void setbTitle(String bTitle) {
-		this.bTitle = bTitle;
+	public void setbTitle(String title) {
+		this.title = title;
 	}
 	public String getbContent() {
-		return bContent;
+		return content;
 	}
-	public void setbContent(String bContent) {
-		this.bContent = bContent;
+	public void setbContent(String content) {
+		this.content = content;
 	}
 	public String getbWriter() {
-		return bWriter;
+		return writer;
 	}
-	public void setbWriter(String bWriter) {
-		this.bWriter = bWriter;
+	public void setbWriter(String writer) {
+		this.writer = writer;
 	}
 	public String getbDateTime() {
 		return bDateTime;

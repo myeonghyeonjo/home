@@ -8,6 +8,27 @@
 				                 b_writer as bWriter
 	      FROM            lc_board
 	   </select>
+	   
+	   
+	   
+	   
+	  
+		
+		
+		  <!--  게시판 글 작성 -->
+		 <insert id="createBoard" parameterType="Board">
+      INSERT INTO lc_board (
+         b_title,
+         b_content,
+         b_writer
+       
+      ) VALUES (
+         #{title},
+         #{content},
+         #{writer}
+      )
+   </insert>
+	   
 </mapper>
 
 

@@ -88,7 +88,15 @@ public class Controller {
 	      return "/denied";
 	   }
 
-	
+	   @RequestMapping("/boardinsert")
+	   public String boardInsert() {
+		      return "/boardinsert";
+	   }
+	   @RequestMapping("/boardinsert2")
+	   public String boardinsert2(Board board) {
+		   boardservice.createBoard(board);
+		  
+		   return "/login";
+	   }
+
 }
-
-

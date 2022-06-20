@@ -15,6 +15,7 @@
            <sec:authorize access="isAnonymous()">
               <a href="/login">로그인</a>
               <a href="/beforeSignUp">회원가입</a>
+              <a href="/boardinsert">게시글 작성</a>
            </sec:authorize>   
             <sec:authorize access="isAuthenticated()">
                <a href="/logout">로그아웃</a>
@@ -27,6 +28,7 @@
          <sec:authorize access="isAuthenticated()">        
                <a href="/user/info">내 정보</a>
                <a href="/admin">관리자</a>
+               
             </sec:authorize>
         </div>   
 </body>

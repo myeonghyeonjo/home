@@ -273,6 +273,13 @@
 		</ul>
 	</div>
 </c:if>
-
+	<table>
+		<td>
+			<a href="board-insert.do?">글쓰기</a>
+		</td>
+		<td>
+			<a href="user-login-result.do?">목록으로</a>
+		</td>
+	</table>
 </body>
 </html>

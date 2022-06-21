@@ -8,12 +8,13 @@
 </head>
 <body>
 <h2> 게시글등록 </h2>
-<form action="board-insert-process.do" name="board" method="post" enctype="multipart/form-data"  onsubmit="return formCheck();">
+<form action="board-insert-process.do" name="board" method="post" enctype="multipart/form-data">
 	<p> 제목 : <input type="text" name="title"></p>
 	<p> 내용 : <input type="text" name="content"></p>
 	<p> 작성자 : <input type="text" name="writer"></p>
-	<p> <input type="file" name="uploadFile" multiple accept="image/*"/></p>
+	<p> <input type="file" name="file" ></p>
 	<p> <input type="submit"  value="등록하기"></p>
+	<a href="user-login-result.do?">목록으로</a>
 	
 </form>
 

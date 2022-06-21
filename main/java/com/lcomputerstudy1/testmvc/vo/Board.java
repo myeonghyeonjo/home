@@ -14,20 +14,12 @@ public class Board {
 	private int b_group;
 	private int b_order;
 	private int b_depth;
-	
+	private int u_idx;
 	private int b_opt;
 	private int rownum;
+	private String b_fileName;
+	private String b_fileRealName;
 	
-	
-	
-	private List<File> fileList;
-	
-	public List<File> getFileList() {
-		return fileList;
-	}
-	public void setFileList(List<File> fileList) {
-		this.fileList = fileList;
-	}
 	public String getb_title() {
 		return  b_title;
 	}
@@ -98,6 +90,28 @@ public class Board {
 	}
 	
 	
+	
+	public void setb_fileName(String  b_fileName) {
+		this. b_fileName =  b_fileName;
+		
+	}
+	public String getb_fileName() {
+		return  b_fileName;
+	}
+	public void setb_fileRealName(String b_fileRealName) {
+		this.b_fileRealName = b_fileRealName;
+		
+	}
+	public String getb_fileRealName() {
+		return b_fileRealName;
+	}
+	
+	public int getu_idx() {
+		return u_idx;
+	}
+	public void setu_idx(int u_idx) {
+		this.u_idx = u_idx;
+	}
 	
 	
 }

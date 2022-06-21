@@ -18,6 +18,7 @@
 			   <input type="text" maxlength="4" size="4" name="tel3" value="${user.arr_tel[2]}"> 
 	</p>
 	<p> 나이 : <input type="text" name="age" value="${user.u_age}"></p>
+	<p> 회원등급 : <input type="text" name="position" value="${user.u_position}"></p>
 	<p> <input type="submit" value="수정하기"></p>
 </form>
 

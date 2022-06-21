@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인 실패</title>
+<title>등급 수정</title>
 </head>
 <body>
-<h1>로그인 실패</h1>
+<h1>회원등급수정완료</h1>
+<a href="user-login-result.do?">목록으로</a>
 </body>
 </html>

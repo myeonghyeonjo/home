@@ -56,6 +56,7 @@ public class UserDAO {
        	       	user.setU_name(rs.getString("u_name"));
        	       	user.setU_tel(rs.getString("u_tel"));
        	       	user.setU_age(rs.getString("u_age"));
+       	       	user.setU_position(rs.getInt("u_position"));
        	       	
        	       	list.add(user);
 	        }
@@ -185,6 +186,7 @@ public class UserDAO {
        	       	user.setU_name(rs.getString("u_name"));
        	       	user.setU_tel(rs.getString("u_tel"));
        	       	user.setU_age(rs.getString("u_age"));
+       	       	user.setU_position(rs.getInt("u_position"));
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -270,6 +272,7 @@ public class UserDAO {
 	        	user.setU_pw(rs.getString("u_pw"));
 	        	user.setU_id(rs.getString("u_id"));
 	        	user.setU_name(rs.getString("u_name"));
+	        	user.setU_position(rs.getInt("u_position"));
 		   }
 		} catch( Exception ex) {
 			System.out.println("SQLException : "+ex.getMessage());
@@ -283,4 +286,27 @@ public class UserDAO {
 		}
 		return user;
 	} //end of loginUser
+
+	public void editPositionUser(User user) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "UPDATE user SET u_position = ? where u_idx= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user.getU_position());
+			pstmt.setInt(2, user.getU_idx());
+			pstmt.executeUpdate();
+		} catch( Exception ex) {
+			System.out.println("SQLException : "+ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

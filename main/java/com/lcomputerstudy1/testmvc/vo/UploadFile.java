@@ -1,12 +1,13 @@
 package com.lcomputerstudy1.testmvc.vo;
 
-public class File {
+public class UploadFile {
 	
 	
 	private String f_title;
 	private int f_group;
 	private int f_idx;
 	private String f_filename;
+	private String f_fileRealname;
 	
 	public String getf_title() {
 		return  f_title;
@@ -33,5 +34,12 @@ public class File {
 	}
 	public String getf_filename() {
 		return f_filename;
+	}
+	public void setf_fileRealname(String f_fileRealname) {
+		this.f_fileRealname = f_fileRealname;
+		
+	}
+	public String getf_fileRealname() {
+		return f_fileRealname;
 	}
 }

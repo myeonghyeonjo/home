@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <title>로그인중입니다.</title>
 </head>
 <style>
@@ -42,14 +44,29 @@
 	}
 </style>
 <body>
+
+<c:if test="${sessionScope.user.u_position == 0}">   
+<th>일반회원</th>${sessionScope.user.u_name }님 
 <div>
-${sessionScope.user.u_name }님 
-</div>
-<div>
-	<ul>
-		<li><a href="user-list.do">회원 목록</a></li>
+<ul>	
+		<li><a href="board-list.do">게시글 목록</a></li>
 		<li><a href="logout.do">로그아웃</a></li>
-	</ul>
+</ul>
 </div>
+</c:if>	
+
+
+
+
+<c:if test="${sessionScope.user.u_position == 1}">   
+<th>관리자</th>${sessionScope.user.u_name }님 
+<div>
+<ul>	
+		<li><a href="user-list.do">유저 목록</a></li>
+		<li><a href="board-list.do">게시글 목록</a></li>
+		<li><a href="logout.do">로그아웃</a></li>
+</ul>
+</div>
+</c:if>
 </body>
 </html>

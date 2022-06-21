@@ -7,7 +7,7 @@
 <title>게시글 삭제</title>
 </head>
 <body>
-<h1>삭제 완료</h1>
+<h1>삭제 완료ff</h1>
 <form action="board-deleteprocess.do" name="board" method="post">
 <a href="/lcomputerstudy1/board-list.do">돌아가기</a>
 <form>

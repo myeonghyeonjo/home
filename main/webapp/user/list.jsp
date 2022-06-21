@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
+<%@ page import = "java.io.File" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <title>회원목록2</title>
 </head>
 <style>
@@ -53,15 +55,31 @@
 			<th>No</th>
 			<th>ID</th>
 			<th>이름</th>
+			<th>등급</th>
+			
 		</tr>
 		<c:forEach items="${list}" var="item" varStatus="status">
 			 <tr>
 				<td><a href="user-Detail.do?u_idx=${item.u_idx}">${item.rownum}</a></td>
 				<td>${item.u_id}</td>
 				<td>${item.u_name}</td>
+				<c:if test="${item.u_position == 0}">   
+				<td>일반회원
+				
+					<a href="user-edit-position.do?u_idx=${item.u_idx}">관리자로변경</a>
+				</td>
+				
+				
+				</c:if>
+				<c:if test="${item.u_position == 1}">   
+				<td>관리자
+				<a href="user-edit-position2.do?u_idx=${item.u_idx}">일반회원으로변경</a>
+				</td>
+				</c:if>
 		     <tr>
 		</c:forEach>
 	</table>
+	<a href="user-login-result.do?">목록으로</a>
 <!-- 아래부터 pagination -->
 <div>
 		<ul>
@@ -99,5 +117,9 @@
 			</c:choose> 
 		</ul>
 	</div>
+		
+		
+		
+		
 </body>
 </html>

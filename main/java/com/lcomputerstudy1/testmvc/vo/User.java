@@ -10,6 +10,7 @@ public class User {
 	private String u_age;
 	private String[] arr_tel;
 	private int rownum;
+	private int position;
 	
 	public int getU_idx() {
 		return u_idx;
@@ -58,5 +59,11 @@ public class User {
 	}
 	public int getRownum() {
 		return rownum;
+	}
+	public void setU_position(int position) {
+		this.position = position;
+	}
+	public int getU_position() {
+		return position;
 	}
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import = "java.io.File" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -28,18 +29,6 @@
 </head>
 <body>
 
-
-<iframe id="ifrm_filedown"  style="position:absolute; z-index:1;visibility : hidden;"></iframe>  
-
-
-
-
-
-
-
-
-
-
 	<h1>게시판 상세페이지</h1>
 	<table >
 		<tr>
@@ -61,25 +50,64 @@
 	<table>
 		<tr style="height:50px;">
 			<td>
-				<a href="${path}/lcomputerstudy1/board-edit.do?b_idx=${board.b_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >수정</a>
+				<c:choose>
+   					 <c:when test="${sessionScope.u_position==0}">
+   					 	 <c:if test="${sessionScope.u_idx == board.u_idx}">   
+							<a href="${path}/lcomputerstudy1/board-edit.do?b_idx=${board.b_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >수정</a>
+				 	 	</c:if>
+				 	 </c:when>	
+				 	 <c:when test="${sessionScope.u_position==1}">
+   					 	 <c:if test="${sessionScope.u_idx == board.u_idx}">   
+							<a href="${path}/lcomputerstudy1/board-edit.do?b_idx=${board.b_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >수정</a>
+				 	 	</c:if>
+				 	 </c:when>				
+				</c:choose>	
 			</td>
+			
+			
+			
+			
+			
 			<td>
-				<a href="${path}/lcomputerstudy1/board-deleteprocess.do?b_idx=${board.b_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >삭제</a>
+				<c:choose>
+   					 <c:when test="${sessionScope.u_position==0}">
+   					 	<c:if test="${sessionScope.u_idx == board.u_idx}">   
+							<a href="${path}/lcomputerstudy1/board-deleteprocess.do?b_idx=${board.b_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >삭제</a>
+						</c:if>
+				 	</c:when>
+				 	<c:when test="${sessionScope.u_position==1}">
+						<a href="${path}/lcomputerstudy1/board-deleteprocess.do?b_idx=${board.b_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >삭제</a>
+					</c:when>		
+				</c:choose>	
 			</td>
+			
 			<td>
 				<a href="${path}/lcomputerstudy1/board-reply.do?b_idx=${board.b_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >답글달기</a>
 			</td>
 			
-			
+		<!--  	
+			<% 
+			String directory = application.getRealPath("/upload/");
+			String files[] = new File(directory).list();
+			for(String file : files){
+				out.write("<a href=\"" + request.getContextPath()+ "/FileDownloadTest.do?fileName=" +
+							java.net.URLEncoder.encode(file,"UTF-8") + "\">" + file + "</a><br>");
+			}
+			%>
+		-->
 			<th colspan="2">첨부파일</th>			
-			<td colspan="8">
-				<a href="#" onclick="onDownload('${article.idx}')">${article.filename}</a>
+			<td colspan="8">	
+				<a href="FileDownloadTest.do?fileName=${file.f_filename}">${file.f_filename}</a>
 			</td>
+			
+			
+			
 		
 
 
 		
 	</table>
+			
 	
 	<!-- 
 	<form  action="reply-insert-process.do" name="reply" method="post">
@@ -119,7 +147,14 @@
 			 				<td>${item.r_writer}</td>
 							<td>${item.r_date}</td>
 							<td>
-								<input type="button" value="수정" class="btnUpdate">
+						
+									<input type="button" value="수정" class="btnUpdate">
+							
+
+
+								
+								
+								
 								<input type="button" value="삭제" class="btnDelete" r_idx="${item.r_idx}">
 								<input type="button" value="댓글" class="btnReReply">
 							</td>
@@ -142,8 +177,9 @@
 			  	</td>
 			  </tr>
 		</c:forEach>
-	</table>
 	
+	</table>
+		<li><a href="board-list.do">게시글 목록으로 돌아가기</a></li>
 	
 	
 	

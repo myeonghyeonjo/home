@@ -49,5 +49,10 @@ public class UserService {
 	public User loginUser(String idx, String pw) {
 		return dao.loginUser(idx,pw);
 	}
+
+	public void editPositionUser(User user) {
+		dao.editPositionUser(user);
+		
+	}
 	
 }

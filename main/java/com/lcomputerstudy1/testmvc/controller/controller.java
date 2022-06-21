@@ -3,10 +3,14 @@ package com.lcomputerstudy1.testmvc.controller;
 
 import java.util.*;
 import java.text.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +23,7 @@ import com.lcomputerstudy1.testmvc.service.FileService;
 import com.lcomputerstudy1.testmvc.service.ReplyService;
 import com.lcomputerstudy1.testmvc.service.UserService;
 import com.lcomputerstudy1.testmvc.vo.Board;
-import com.lcomputerstudy1.testmvc.vo.File;
+import com.lcomputerstudy1.testmvc.vo.UploadFile;
 import com.lcomputerstudy1.testmvc.vo.Pagination;
 import com.lcomputerstudy1.testmvc.vo.Reply;
 import com.lcomputerstudy1.testmvc.vo.User;
@@ -32,12 +36,19 @@ public class controller extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
+	
+	protected void doHandle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		doPost(request, response);
+		
+	}
+	
+	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		
-		
+	
 		MultipartRequest multi = null;
 		
 		
@@ -65,7 +76,7 @@ public class controller extends HttpServlet {
 		Reply reply = null;
 		ReplyService replyService = null;
 		
-		File file = null;
+		UploadFile file = null;
 		FileService fileService = null;
 		
 		int usercount = 0;
@@ -171,33 +182,66 @@ public class controller extends HttpServlet {
 				
 				userService = UserService.getInstance();
 				user = userService.loginUser(idx,pw);
-							
+				
 				if(user != null) {
+					
 					session = request.getSession();
-//					session.setAttribute("u_idx", user.getU_idx());
-//					session.setAttribute("u_id", user.getU_id());
-//					session.setAttribute("u_pw", user.getU_pw());
-//					session.setAttribute("u_name", user.getU_name());
+					
+					session.setAttribute("u_idx", user.getU_idx());
+					session.setAttribute("u_id", user.getU_id());
+					session.setAttribute("u_pw", user.getU_pw());
+					session.setAttribute("u_name", user.getU_name());
+					session.setAttribute("u_position", user.getU_position());
 					session.setAttribute("user", user);
+					
 					view = "user/login-result";
 				} else {
 					view = "user/login-fail";
 				}			
 				break;
 			case "/logout.do":
-				session = request.getSession();
-				session.invalidate();
+				session = request.getSession();  //request객체에서 ssession을 가져옴.
+				session.invalidate();   //해당세션을 날려버림.
 				view = "user/login";
 				break;
 			case "/access-denied.do":
 				view = "user/access-denied";
 				break;
 				
+			case "/user-login-result.do":
+				view = "user/login-result";
+				
+				break;
 				
 				
-	
+			case "/user-edit-position.do":	
+				user = new User();
+				user.setU_idx(Integer.parseInt(request.getParameter("u_idx")));
+				user.setU_position(1);
 				
 				
+				userService = UserService.getInstance();
+				userService.editPositionUser(user);
+				
+				
+				view = "user/edit-position-result";
+				
+				break;
+				
+				
+			case "/user-edit-position2.do":
+				user = new User();
+				user.setU_idx(Integer.parseInt(request.getParameter("u_idx")));
+				user.setU_position(0);
+				
+				
+				userService = UserService.getInstance();
+				userService.editPositionUser(user);
+				
+				
+				view = "user/edit-position-result";
+				
+				break;
 				
 				
 				
@@ -244,7 +288,7 @@ public class controller extends HttpServlet {
 				ArrayList<Board> list1 = boardService.getBoards(pagination2);
 				
 				
-			
+				session = request.getSession();
 				
 				request.setAttribute("board",board);
 				request.setAttribute("list", list1);
@@ -306,56 +350,35 @@ public class controller extends HttpServlet {
 				break;
 				
 			case "/board-insert-process.do":
-				
-				
-				
-				
+
+				 String title =null;
+				 String writer =null;
+				 String content=null;
+				  
+				 //List<UploadFile> fileList = new ArrayList<UploadFile>();
+				 
 				
 				String savePath = request.getSession().getServletContext().getRealPath("/upload");// 파일이 업로드될 실제 tomcat 폴더의 WebContent 기준
 				int sizeLimit = 10 * 1024 * 1024 ; // 10메가입니다.
 				
-				MultipartRequest req = new MultipartRequest(request, savePath, sizeLimit, "utf-8");
+				MultipartRequest req = new MultipartRequest(request, savePath, sizeLimit, "utf-8",new DefaultFileRenamePolicy());
+				title = req.getParameter("title");
+				writer = req.getParameter("writer");
+				content = req.getParameter("content");
+			
+				String fileName = req.getOriginalFileName("file");
+				String fileRealName = req.getFilesystemName("file");
 				
-				Enumeration files = req.getFileNames();
-				 while (files.hasMoreElements()) {
-					   String name = (String) files.nextElement();
-					   String filename = req.getFilesystemName(name);
-					   List<File> fileList = new ArrayList<File>();
-					   
-					   while(files.hasMoreElements()) {
-						   	File f = new File();
-							f.setf_title(filename);
-							fileList.add(f);
-							
-					   }
-						   
+				/*ArrayList saveFiles = new ArrayList();             //저장될 파일이름
+				ArrayList originFiles = new ArrayList();    //실제파일명
 				
-				 }
-				 
-				 
-				 
-								
+				Enumeration e = req.getFileNames();
 				
-				try{
-					multi=new MultipartRequest(request, savePath, sizeLimit, "utf-8", new DefaultFileRenamePolicy());
-				}catch (Exception e) {
-					e.printStackTrace();
-				}
-				String filename = multi.getFilesystemName("uploadFile");
-				String title = multi.getParameter("title");
-				String writer = multi.getParameter("writer");
-				String content = multi.getParameter("content");
-				//String regip = request.getRemoteAddr();
-				
-				// ex
-				/*List<File> fileList = new ArrayList<File>();
-				while() {
-					File f = new File();
-					f.setf_title(title);
-					fileList.add(f);
-					break;
+				while(e.hasMoreElements()) {
+					String n = (String)e.nextElement();
+					saveFiles.add(req.getFilesystemName(n));
+					originFiles.add(req.getOriginalFileName(n));
 				}*/
-				
 				
 				board = new Board();
 				board.setb_title(title);
@@ -363,29 +386,15 @@ public class controller extends HttpServlet {
 				board.setb_count(0);
 				board.setb_content(content);
 				board.setb_date(ndate);
-				board.setFileList(fileList);
+				board.setb_fileName(fileName);
+				board.setb_fileRealName(fileRealName);
+				
+				session = request.getSession();
+				board.setu_idx(Integer.parseInt(String.valueOf(session.getAttribute("u_idx"))));
 				
 				boardService = BoardService.getInstance();
 				boardService.insertBoard(board);
-				
 		
-				/*`file = new File();
-				file.setf_title(filename);
-				
-				fileService = FileService.getInstance();
-				fileService.insertFile(file);*/
-				
-				/*board = new Board();
-				board.setb_title(request.getParameter("title"));
-				board.setb_count(0);
-				board.setb_content(request.getParameter("content"));
-				board.setb_date(ndate);
-				board.setb_writer(request.getParameter("writer"));
-				
-				
-				boardService = BoardService.getInstance();
-				boardService.insertBoard(board);*/
-					
 				view = "board/insert-result";
 				break;
 				
@@ -405,14 +414,22 @@ public class controller extends HttpServlet {
 				
 				
 			
+				fileService = FileService.getInstance();
+				
+				file = fileService.getfiles(board);
+				request.setAttribute("file",file);
 				
 				
 				
 				
 				
 				
+			
 				
 				
+				
+				//session = request.getSession();
+				//session.setAttribute("user", user);
 				
 				
 				request.setAttribute("board", board);
@@ -802,18 +819,66 @@ public class controller extends HttpServlet {
 				
 				
 				
-		}
+				
+				
+			case "/FileDownloadTest.do":
+				
+				// ② 경로 가져오기
+				String fileName1 = request.getParameter("fileName");
+				String saveDir = this.getServletContext().getRealPath("/upload/");
+				File file1 = new File(saveDir + "/" + fileName1);
+				System.out.println("파일명 : " + fileName1);
+				
+				
+				// ③ MIMETYPE 설정하기
+				String mimeType = getServletContext().getMimeType(file1.toString());
+				if(mimeType == null)
+				{
+					response.setContentType("application/octet-stream");
+				}
+				
+				// ④ 다운로드용 파일명을 설정
+				String downName = null;
+				if(request.getHeader("user-agent").indexOf("MSIE") == -1)
+				{
+					downName = new String(fileName1.getBytes("UTF-8"), "8859_1");
+				}
+				else
+				{
+					downName = new String(fileName1.getBytes("EUC-KR"), "8859_1");
+				}
+				
+				// ⑤ 무조건 다운로드하도록 설정
+				response.setHeader("Content-Disposition","attachment;filename=\"" + downName + "\";");
+				
+				// ⑥ 요청된 파일을 읽어서 클라이언트쪽으로 저장한다.
+				FileInputStream fileInputStream = new FileInputStream(file1);
+				ServletOutputStream servletOutputStream = response.getOutputStream();
+				
+				byte b [] = new byte[1024];
+				int data = 0;
+				
+				while((data=(fileInputStream.read(b, 0, b.length))) != -1)
+				{
+					servletOutputStream.write(b, 0, data);
+				}
+				
+				servletOutputStream.flush();
+				servletOutputStream.close();
+				fileInputStream.close();
+			}
+		
 		RequestDispatcher rd = request.getRequestDispatcher(view+".jsp");
 		rd.forward(request, response);
-	}
+	}	
 	
 	String checkSession(HttpServletRequest request, HttpServletResponse response, String command) {
 		HttpSession session = request.getSession();
 		
 		String[] authList = {
 				"/user-list.do"
-				,"/user-insert.do"
-				,"/user-insert-process.do"
+				
+				
 				,"/user-detail.do"
 				,"/user-edit.do"
 				,"/user-edit-process.do"

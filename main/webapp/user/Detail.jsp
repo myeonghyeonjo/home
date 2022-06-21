@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,18 +42,22 @@
 				<th>${user.u_age}</th>
 		     <tr>
 	</table>
-</body>
-</html>
 
-</style>
+
+
 	<tr style="height:50px;">
-		<td style="border:none;">
-			<a href="${path}/lcomputerstudy1/user-edit.do?u_idx=${user.u_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >수정</a>
-		</td>
+	<c:choose>
+		<c:when test="${sessionScope.u_position==0}">   
+				<td style="border:none;">
+					<a href="${path}/lcomputerstudy1/user-edit.do?u_idx=${user.u_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >수정</a>
+				</td>
+		 </c:when>
+	</c:choose>	
+		
+		
 		<td style="border:none;">
 			<a href="${path}/lcomputerstudy1/user-deleteprocess.do?u_idx=${user.u_idx}"	style="width:70%;font-weight:700;background-color:#818181;color:#fff;" >삭제</a>
 		</td>
 	</tr>
-
-
-
+</body>
+</html>

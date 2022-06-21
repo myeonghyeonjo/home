@@ -56,6 +56,11 @@ public class BoardService {
 		dao.insertReply(board);
 		
 	}
+	
+	public void insertFile(Board board) {
+		dao.insertFile(board);
+		
+	}
 
 	public ArrayList<Board> searchtitle(Pagination pagination, Board board) {
 		return dao.searchtitle(pagination, board);
@@ -76,6 +81,7 @@ public class BoardService {
 		return dao.getBoardsCount(board);
 	}
 
+	
 	
 	
 	
